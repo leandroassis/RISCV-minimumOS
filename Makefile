@@ -3,11 +3,11 @@ SRC=$(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 RISCVTOOLS = ./riscv64-unknown-elf-gcc-2018.07.0-x86_64-linux-ubuntu14/bin
-GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -nostdlib -nostartfiles
+GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -nostdlib -nostartfiles -Wall
 ASPARAMS = -march=rv64imac
 LDPARAMS = -T linker.ld
 
-all: kernel.bin clean
+all: kernel.bin
 
 %.o: %.cpp
 	$(RISCVTOOLS)/riscv64-unknown-elf-g++ $(GCCPARAMS) -o $@ -c $<

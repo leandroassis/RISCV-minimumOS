@@ -5,7 +5,6 @@ SECTIONS
     .text 0x80000000 : {
         KEEP(*(.text.boot))  
         *(.text*)
-        kernelMain = . - 0x2;
     }
     .rodata : {
         . = ALIGN(8);

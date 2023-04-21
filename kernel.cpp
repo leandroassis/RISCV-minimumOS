@@ -1,3 +1,3 @@
-extern void kernelMain(void){
+extern "C" void kernelMain(void){
     while(1) {}
 }
