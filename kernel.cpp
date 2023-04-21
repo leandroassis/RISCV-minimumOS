@@ -1,3 +1,6 @@
-extern "C" void kernelMain(void){
-    while(1) {}
+#include "kernel.h"
+#include "main.h"
+
+extern "C" void kernelMain(){
+    while(1){}
 }
