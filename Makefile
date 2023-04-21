@@ -7,7 +7,7 @@ GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -nostdlib -nostartfiles
 ASPARAMS = -march=rv64imac
 LDPARAMS = -T linker.ld
 
-all: kernel.bin iso
+all: kernel.bin clean
 
 %.o: %.cpp
 	$(RISCVTOOLS)/riscv64-unknown-elf-g++ $(GCCPARAMS) -o $@ -c $<
@@ -27,7 +27,6 @@ kernel.elf: loader.o $(OBJ)
 
 iso: kernel.bin
 	sudo cp $< ./boot/kernel.bin
-	make clean
 
 clean:
 	rm -f *.bin *.list *.o *.elf
