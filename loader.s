@@ -4,19 +4,16 @@
 
 _start:
     la sp, _stack_start
-    j InitializeBSS    
+    lui a1, _bss_start
+    lui a2, _bss_end
+    jal ra, InitializeBSS    
     call kernelMain
     
 InitializeBSS:
-    ld a1, _bss_start
-    ld a2, _bss_end
-    j loop
-
-loop:
-    sd a1, 0 # fix this
-    addi a1, a1, 8
-    blt a1, a2, loop
-    ret
+    sd x0, 0(a1)
+    addi a1, a1, 8 # possivelmente fazer com instruções vetoriais
+    blt a1, a2, InitializeBSS
+    jalr x0, 0(ra)
 
 _hlt:
     j _hlt
