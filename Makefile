@@ -42,7 +42,7 @@ kernel.iso: kernel.bin
 	rm -rf iso
 
 run_iso: kernel.iso
-	qemu-system-riscv64 -cdrom kernel.iso -boot d -nographic
+	qemu-system-riscv64 -cdrom kernel.iso -boot d -nographic -machine virt
 
 run_bin: kernel.bin
 	qemu-system-riscv64 -nographic -bios none -machine virt -kernel kernel.bin
