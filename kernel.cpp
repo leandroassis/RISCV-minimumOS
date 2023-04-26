@@ -1,11 +1,9 @@
 #include "kernel.h"
 
-extern "C" void kernel_main(void *multiboot_structure, uint32 magic_number){
+extern "C" void kernel_main(){
     //printf("%d", magic_number); how i do that?????
     printf("Bem vindo ao RISCV OS!\n");
     printf("$> ");
-    while(1){
-    }
 }
 
 void printf(string str){

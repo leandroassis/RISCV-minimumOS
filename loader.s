@@ -1,12 +1,3 @@
-.equ MAGIC, 0x1badb002
-.equ FLAGS, (1<<0 | 1<<1)
-.equ CHECKSUM, -(MAGIC+FLAGS)
-
-.section .multiboot
-    .dword MAGIC
-    .dword FLAGS
-    .dword CHECKSUM
-
 .section ".text.boot"
 .globl _start
 
@@ -15,9 +6,8 @@ _start:
     la a1, _bss_start
     la a2, _bss_end
     jal ra, initialize_bss
-    li a0, FLAGS
-    li a1, MAGIC
     call kernel_main
+    j _hlt
 
 # to do: criar magic number pra inicializar via grub (iso)
 

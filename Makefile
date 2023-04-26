@@ -26,27 +26,11 @@ kernel.elf: $(OBJ)
 	$(RISCVTOOLS)/riscv64-unknown-elf-objdump -D $< > $@
 	cat $@
 
-kernel.iso: kernel.bin
-	mkdir iso
-	mkdir iso/boot
-	mkdir iso/boot/grub
-	cp $< iso/boot/kernel.bin
-	echo 'set timeout=0' >> iso/boot/grub/grub.cfg
-	echo 'set default=0' >> iso/boot/grub/grub.cfg
-	echo '' >> iso/boot/grub/grub.cfg
-	echo 'menuentry "RISC-V OS" {' >> iso/boot/grub/grub.cfg
-	echo ' multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
-	echo ' boot' >> iso/boot/grub/grub.cfg
-	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=$@ iso
-	rm -rf iso
+run: kernel.bin
+	qemu-system-riscv64 -nographic -bios none -machine virt -kernel kernel.bin -smp 2 -m 2G
 
-run_iso: kernel.iso
-	qemu-system-riscv64 -cdrom kernel.iso -boot d -nographic -machine virt
-
-run_bin: kernel.bin
-	qemu-system-riscv64 -nographic -bios none -machine virt -kernel kernel.bin
-
+debug: kernel.elf
+	qemu-system-riscv64 -nographic -s -S -bios none -machine virt -kernel kernel.elf -smp 2 -m 2G
 
 clean:
 	rm -f *.bin *.list *.o *.elf *.iso *.dts *.dtb
