@@ -1,9 +1,10 @@
 
 SRC=$(wildcard *.cpp)
-OBJ = $(SRC:.cpp=.o)
+ASRC=$(wildcard *.s)
+OBJ = $(SRC:.cpp=.o) $(ASRC:.s=.o)
 
 RISCVTOOLS = ./riscv64-unknown-elf-gcc-2018.07.0-x86_64-linux-ubuntu14/bin
-GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -nostdlib -nostartfiles -Wall
+GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -Wall
 ASPARAMS = -march=rv64imac
 LDPARAMS = -T linker.ld
 
@@ -15,7 +16,7 @@ all: kernel.bin
 %.o: %.s
 	$(RISCVTOOLS)/riscv64-unknown-elf-as $(ASPARAMS) -o $@ -c $<
 
-kernel.elf: loader.o $(OBJ)
+kernel.elf: $(OBJ)
 	$(RISCVTOOLS)/riscv64-unknown-elf-ld $(LDPARAMS) $^ -o $@
 
 %.bin: %.elf
@@ -40,11 +41,15 @@ kernel.iso: kernel.bin
 	grub-mkrescue --output=$@ iso
 	rm -rf iso
 
-run: kernel.iso
-	qemu-system-riscv64 -cdrom kernel.iso -boot d -nographic -smp 2 -m 2G
+run_iso: kernel.iso
+	qemu-system-riscv64 -cdrom kernel.iso -boot d -nographic
+
+run_bin: kernel.bin
+	qemu-system-riscv64 -nographic -bios none -machine virt -kernel kernel.bin
+
 
 clean:
-	rm -f *.bin *.list *.o *.elf *.iso
+	rm -f *.bin *.list *.o *.elf *.iso *.dts *.dtb
 	rm -rf iso
 
 .PHONY: all clean
