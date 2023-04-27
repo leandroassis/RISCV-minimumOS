@@ -1,0 +1,8 @@
+iso
+*.o
+*.elf
+*.list
+kernel.iso
+riscv64-unknown-elf-gcc-2018.07.0-x86_64-linux-ubuntu14.tar.gz
+riscv64-unknown-elf-gcc-2018.07.0-x86_64-linux-ubuntu14
+.vscode
