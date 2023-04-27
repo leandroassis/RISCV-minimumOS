@@ -1,15 +1,8 @@
 #include "kernel.h"
+#include "stubs.h"
 
 extern "C" void kernel_main(){
-    //printf("%d", magic_number); how i do that?????
-    printf("Bem vindo ao RISCV OS!\n");
-    printf("$> ");
-}
+    uint8 teste = 0x48;
 
-void printf(string str){
-    // to do: permitir enviar kwargs
-    while(*str != '\0'){
-        WRITE_UART(*str);
-        str++;
-    }
+    printf("Bem vindo ao RISCV OS %d!\n", teste);
 }
