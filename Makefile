@@ -1,5 +1,5 @@
 
-SRC=$(wildcard *.cpp */*.cpp */*/*.cpp */*/*/*.cpp)
+SRC=$(wildcard */*/*.cpp */*.cpp *.cpp */*/*/*.cpp */*/*/*/*.cpp)
 ASRC=$(wildcard *.s */*.s */*/*.s */*/*/*.s)
 LD=$(wildcard *.ld  */*.ld */*/*.ld */*/*/*.ld)
 OBJC=$(SRC:.cpp=.o)
@@ -7,16 +7,16 @@ OBJAS=$(ASRC:.s=.o)
 OBJ=$(OBJC) $(OBJAS)
 
 RISCVTOOLS = ./riscv64-unknown-elf-gcc-2018.07.0-x86_64-linux-ubuntu14/bin
-GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -Wall
+GCCPARAMS = -Os -march=rv64imac -mabi=lp64 -mcmodel=medany -nostdlib -nostartfiles -Wall -std=c++11
 ASPARAMS = -march=rv64imac
 LDPARAMS = -T
 
 all: kernel.bin
 
-$(OBJC): $(SRC)
+%.o: %.cpp
 	$(RISCVTOOLS)/riscv64-unknown-elf-g++ $(GCCPARAMS) -o $@ -c $<
 
-$(OBJAS): $(ASRC)
+%.o: %.s
 	$(RISCVTOOLS)/riscv64-unknown-elf-as $(ASPARAMS) -o $@ -c $<
 
 kernel.elf: $(OBJ)

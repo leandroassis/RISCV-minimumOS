@@ -1,8 +1,6 @@
 #include "kernel.h"
-#include "stubs.h"
+#include "../clib/stubs.h"
 
 extern "C" void kernel_main(){
-    uint8 teste = 0x48;
-
-    printf("Bem vindo ao RISCV OS %d!\n", teste);
+    printf("Bem vindo ao RISCV OS!\n ", "Teste ", "Teste2 ");
 }

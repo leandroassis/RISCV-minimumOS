@@ -2,10 +2,9 @@
     path: kernel.h
     create_date: 2023-04-25
 */
-#include "types.h"
 
 #ifndef KERNEL_H
-#define KERNEL_H
+    #define KERNEL_H
 
 // Memory mapped IO
 #define UART_ADDR 0x10000000
